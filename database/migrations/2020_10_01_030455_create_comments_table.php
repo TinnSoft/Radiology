@@ -13,16 +13,18 @@ class CreateCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('image_id') ->references('id')->on('images');
-            $table->unsignedBigInteger('user_id') ->references('id')->on('users');
-            $table->text('comment');            
-            $table->softDeletes();
-            $table->timestamps();
-            $table->foreign('image_id')->references('id')->on('images');
-            $table->foreign('user_id')->references('id')->on('users');
-        });
+        if (!Schema::hasTable('comments')) {
+            Schema::create('comments', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->unsignedBigInteger('image_id') ->references('id')->on('images');
+                $table->unsignedBigInteger('user_id') ->references('id')->on('users');
+                $table->text('comment');            
+                $table->softDeletes();
+                $table->timestamps();
+                $table->foreign('image_id')->references('id')->on('images');
+                $table->foreign('user_id')->references('id')->on('users');
+            });
+        }
     }
 
     /**
